@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=800, user-scalable=no">
+    <title>Blackjack Js</title>
+    <meta name="description" content="Blackjack made in Javascript for Introduction to AI class">
+    <meta name="author" content="Zill Christian">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/m-styles.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet"
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+  </head>
+  <body>
+ 	<div id="console">
+ 		<h3 class="text-error">Console</h3>
+ 		<hr />
+    </div>
+    <div class="meny-arrow"></div>
+    <div id="wrap">
+
+      <!-- Begin page content -->
+      <div class="container">
+        <div class="page-header">
+          <h1>Blackjack</h1>
+        </div>
+
+        <!-- Dealer -->
+        <fieldset id="dealer">
+          <legend class="muted">Dealer - <em class="dealerSecret score">?</em><em class="dealerTotal score"></em></legend>
+        </fieldset>
+        
+        <br /><br />
+        
+        <!-- Your Hand -->
+        <fieldset id="hand">
+          <legend class="muted" id="handTitle">Your Hand - <em class="handTotal score"></em></legend>
+        </fieldset>
+        
+        <br /><br /><br />
+        
+        <!-- Your Actions -->
+        <div class="well">
+          <a href="#hit" id="hit" class="m-btn red actions" disabled>HIT</a>
+          <a href="#stand" id="stand" class="m-btn blue actions" disabled>Stand</a>
+          <a href="#dd" id="dd" class="m-btn black actions" disabled>Double Down</a>
+          <p class="pull-right text-success utility">Wallet : $<em id="utility">500</em></p>
+        </div>
+
+      </div>
+
+      <div id="push"></div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">Made by <a href="http://zillwc.com">Zill Christian</a></p>
+      </div>
+    </div>
+
+
+    <!-- Intro Modal -->
+    <div id="init" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Blackjack</h3>
+      </div>
+      <div class="modal-body">
+        <p class="text-info">Object of the game:</p>
+        <p>Reach 21 points or a score that is higher than the dealer without exceeding 21.</p>
+        <p class="text-info">HIT button:</p>
+        <p>Hit this button to get another card from the dealer</p>
+        <p class="text-info">STAND button:</p>
+        <p>Hit this button to take no more cards and stay with the cards you have</p>
+        <p class="text-info">DOUBLE DOWN button:</p>
+        <p>Hit this button to increase your original bet by 100% in exchange for committing to stand after receiving exactly one more card.</p>
+
+      </div>
+      <div class="modal-footer">
+	    <p class="pull-left text-success" id="wager">Table Wager: $100 per round</p>
+        <a href="http://en.wikipedia.org/wiki/Blackjack" class="m-btn green-stripe black">More Info</a>
+        <a href="#start" data-dismiss="modal" aria-hidden="true" id="startBtn" class="m-btn green red-stripe">Start Game</a>
+      </div>
+    </div>
+    
+    
+    <!-- You Bust Modal -->
+    <div id="youbust" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>:(</h3>
+      </div>
+      <div class="modal-body">
+      	<h4 class="text-error">You have bust (<em class="handTotal muted"></em>). Click Again to try again.</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#reset" data-dismiss="modal" aria-hidden="true" class="m-btn green red-stripe resetBtn">Again</a>
+      </div>
+    </div>   
+    
+    <!-- Dealer Bust Modal -->
+    <div id="dealerBust" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>:)</h3>
+      </div>
+      <div class="modal-body">
+      	<h4 class="text-error">Dealer has bust (<em class="dealerTotal muted"></em>). You win, Congrats! Click Again to play again.</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#reset" data-dismiss="modal" aria-hidden="true" class="m-btn green red-stripe resetBtn">Again</a>
+      </div>
+    </div>
+    
+    <!-- You Win Modal -->
+    <div id="youWin" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>:)</h3>
+      </div>
+      <div class="modal-body">
+      	<h4 class="text-error">Your score (<em class="handTotal muted"></em>) has beaten Dealer's score (<em class="dealerTotal muted"></em>). You win, Congrats! Click Again to play again.</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#reset" data-dismiss="modal" aria-hidden="true" class="m-btn green red-stripe resetBtn">Again</a>
+      </div>
+    </div>
+    
+    
+    <!-- You Lose Modal -->
+    <div id="youLose" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>:(</h3>
+      </div>
+      <div class="modal-body">
+      	<h4 class="text-error">The Dealer's score (<em class="dealerTotal muted"></em>) has beaten your score (<em class="handTotal muted"></em>). You lose, sorry. Click Again to play again.</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#reset" data-dismiss="modal" aria-hidden="true" class="m-btn green red-stripe resetBtn">Again</a>
+      </div>
+    </div> 
+    
+    
+    <!-- Draw Modal -->
+    <div id="draw" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>:|</h3>
+      </div>
+      <div class="modal-body">
+      	<h4 class="text-error">The Dealer's score (<em class="dealerTotal muted"></em>) has matched your score (<em class="handTotal muted"></em>). It is a draw, no one wins anything. Click Again to play again.</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#reset" data-dismiss="modal" aria-hidden="true" class="m-btn green red-stripe resetBtn">Again</a>
+      </div>
+    </div>     
+
+    
+    <!-- Poor Modal -->
+    <div id="poor" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>:/</h3>
+      </div>
+      <div class="modal-body">
+      	<h4 class="text-error">You are severely poor. Go call a gambling hotline or click relocate to find a new table.</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#relocate" data-dismiss="modal" aria-hidden="true" class="m-btn green red-stripe relocate">Relocate</a>
+      </div>
+    </div>   
+    
+    
+    <!-- Poor Modal -->
+    <div id="rich" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>:/</h3>
+      </div>
+      <div class="modal-body">
+      	<h4 class="text-error">You are seriously too rich to play at this table. Click relocate to find a new table</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#relocate" data-dismiss="modal" aria-hidden="true" class="m-btn green red-stripe relocate">Relocate</a>
+      </div>
+    </div>            
+    
+    
+    
+    <!-- Javascript at end to make page load faster -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/meny.min.js"></script>
+    <script src="js/jquery.noty.js"></script>
+    <script src="js/noty.top.js"></script>
+    <script src="js/noty.default.js"></script>
+    <script type="text/javascript">
+    	var winH = window.height;
+	    var meny = Meny.create({
+	        menuElement: document.querySelector( '#console' ),
+	        contentsElement: document.querySelector( '#wrap' ),
+	        position: 'right',
+	        height: winH,
+	        width: 260
+	    });	    
+    </script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
+

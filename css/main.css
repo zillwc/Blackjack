@@ -1,0 +1,133 @@
+html,
+body {
+	height: 100%;
+	background-color: #222;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+	margin: 0 auto -60px;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by it's height */
+	background-color: #f5f5f5;
+}
+
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+	height: 60px;
+}
+#footer {
+	background-color: white;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+#footer {
+  margin-right: -20px;
+  margin-left: -20px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+}
+
+.container {
+	display: none;
+	max-width: 680px;
+	width: auto;
+}
+.container .credit {
+	margin: 20px 0;
+}
+
+.cards {
+	display: none;
+	margin-left: 10px;
+}
+
+#console {
+	padding: 10px;
+	background-color: #222;
+	color: rgb(185, 74, 72);
+	font-family: Consolas,
+             "Lucida Console",
+             Monaco,
+             monospace;
+    overflow: scroll;
+}
+
+.meny-arrow {
+	position: absolute;
+	z-index: 10;
+	
+	border: 10px solid transparent;
+	
+	-webkit-transition: opacity 0.4s ease 0.4s;
+	   -moz-transition: opacity 0.4s ease 0.4s;
+	    -ms-transition: opacity 0.4s ease 0.4s;
+	     -o-transition: opacity 0.4s ease 0.4s;
+	        transition: opacity 0.4s ease 0.4s;
+}
+.meny-left .meny-arrow {
+  top: 50%;
+  left: 14px;
+  margin-top: -16px;
+  border-left: 16px solid #333;
+}
+.meny-right .meny-arrow {
+  top: 50%;
+  right: 14px;
+  margin-top: -16px;
+  border-right: 16px solid #333;
+}
+.meny-top .meny-arrow {
+  top: 14px;
+  left: 50%;
+  margin-left: -16px;
+  border-top: 16px solid #333;
+}
+.meny-bottom .meny-arrow {
+  bottom: 14px;
+  left: 50%;
+  margin-left: -16px;
+  border-bottom: 16px solid #333;
+}
+.meny-active .meny-arrow {
+  opacity: 0;
+
+  -webkit-transition: opacity 0.2s ease;
+     -moz-transition: opacity 0.2s ease;
+      -ms-transition: opacity 0.2s ease;
+       -o-transition: opacity 0.2s ease;
+          transition: opacity 0.2s ease;
+}
+.modal {
+	border-radius: 0px;
+}
+.score {
+	font-size: 15px;
+}
+.dealerTotal {
+	display: none;
+}
+.dealerTotal, .dealerSecret {
+	cursor: pointer;
+}
+p::selection, legend::selection, em::selection {
+	background: #fff2a8;
+}
+p::-moz-selection, legend::-moz-selection, em::selection   {
+	background: #fff2a8;
+}
+.utility {
+	position: relative;
+	top: 12px;
+	font-size: 20px;	
+}
+#wager {
+	font-size: 15px;
+	position: relative;
+	top: 10px;
+}
